@@ -75,7 +75,7 @@ def audit_punctuation(text: str) -> dict:
     return {
         "findings": findings,
         "checked": ["spacing", "repeated punctuation", "parentheses", "quotation mark pairing"],
-        "not_checked": ["whether punctuation matches intended meaning", "grammar", "spelling", "factual accuracy"],
+        "not_checked": ["whether punctuation matches intended meaning", "grammar", "spelling", "factual accuracy", "text direction and layout in the host application"],
     }
 
 
@@ -96,7 +96,7 @@ def prepare_review(text: str, style: str = "modern_standard") -> dict:
             "الإملاء: الهمزات، الألف اللينة، التاء، التنوين، والوصل والفصل.",
             "الترقيم: هل تعكس العلامات المعنى؟ وهل مواضعها ومسافاتها سليمة؟",
             "التنصيص: هل الاقتباس حرفي؟ وهل العلامتان متطابقتان؟",
-            "التنسيق: اتساق العناوين، القوائم، الفقرات، الأرقام، والمسافات.",
+            "التنسيق: اتساق العناوين والقوائم، واتجاه الفقرات (RTL للعربية)، وعزل الروابط والأكواد اللاتينية، والأرقام والمسافات.",
             "احفظ المعنى والنبرة، وميّز التصحيح المؤكد من الاقتراح الأسلوبي.",
         ],
         "reference_rules": relevant_rules,
