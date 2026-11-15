@@ -41,6 +41,16 @@ uv run python server.py
 
 يوجد شرح ربط Claude وChatGPT والعملاء الأخرى في [Integration Guide](Integration%20Guide.md).
 
+### هل يحتاج المستخدم إلى تعديل الكود؟
+
+لا. يمكن تشغيل الأداة كما هي؛ يحتاج المستخدم فقط إلى تثبيت المتطلبات وإعداد اتصال MCP مرة واحدة في التطبيق. تختلف طريقة الاتصال باختلاف العميل:
+
+- **Claude Code وQwen Code وKimi Code:** يمكن تشغيل الخادم محليًا عبر stdio؛ لا تحتاج هذه الطريقة إلى استضافة عامة.
+- **ChatGPT على الويب:** مستودع GitHub وحده لا يربط الأداة بـChatGPT. يلزم عنوان MCP عبر HTTPS ينتهي بـ`/mcp` أو نفق آمن مدعوم، ويعتمد توفر الاتصال المخصص على الخطة وإعدادات مساحة العمل.
+- **DeepSeek:** يلزم استخدامه عبر تطبيق أو مضيف يدعم MCP؛ دعم النموذج أو API لاستدعاء الأدوات لا يعني أن موقع المحادثة نفسه يقبل خادم MCP.
+
+راجع [Integration Guide](Integration%20Guide.md) لأوامر الإعداد الخاصة بكل عميل.
+
 ### أمثلة لطلبات
 
 - «ابحث عن قاعدة كتابة الهمزة المتوسطة مع مثال.»
@@ -72,6 +82,16 @@ uv run mcp dev server.py
 ```
 
 See the [Integration Guide](Integration%20Guide.md) for client-specific setup instructions.
+
+### Do users need to modify the source code?
+
+No. Users can run the project as-is; they only need to install its dependencies and configure the MCP connection once in their client. The connection method depends on the client:
+
+- **Claude Code, Qwen Code, and Kimi Code:** can launch the server locally over stdio; this does not require public hosting.
+- **ChatGPT web:** the GitHub repository alone does not connect the tool to ChatGPT. It needs a reachable HTTPS MCP endpoint ending in `/mcp` or a supported secure tunnel. Availability depends on the account plan and workspace settings.
+- **DeepSeek:** use it through an MCP-capable host or adapter; model/API tool calling alone does not make the standard chat website an MCP client.
+
+See the [Integration Guide](Integration%20Guide.md) for client-specific setup commands.
 
 ## Available tools
 
