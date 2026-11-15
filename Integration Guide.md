@@ -24,7 +24,7 @@ For clients that connect over HTTP, start the server:
 uv run python server.py
 ```
 
-Its local MCP endpoint is `http://127.0.0.1:8000/mcp`. A hosted client such as ChatGPT needs a reachable HTTPS MCP endpoint or a supported secure tunnel; `localhost` on your computer is not reachable from ChatGPT's servers.
+Its local MCP endpoint is `http://127.0.0.1:8000/mcp` by default. The server reads `PORT` from the environment for hosting platforms and keeps the `/mcp` path. A hosted client such as ChatGPT needs a reachable HTTPS MCP endpoint or a supported secure tunnel; `localhost` on your computer is not reachable from ChatGPT's servers.
 
 ## Client support
 
@@ -101,8 +101,9 @@ DeepSeek API function calling and MCP are separate pieces. To use this server wi
 
 ## Security and limits
 
-- This server contains no user accounts, API keys, or write actions. It reads the supplied text for the current tool call and returns language guidance.
-- The HTTP endpoint currently has no authentication. Keep it on localhost, use a secure tunnel, or add access control before exposing it to a public network.
+- The application code has no database or file-writing logic and does not call an external model or language API. It processes the supplied text for the current tool call and returns language guidance; the connected AI client also receives the text under its own data policies.
+- Hosting providers may keep operational logs according to their own settings and policies. Review those settings before deployment; the application code cannot control provider-level retention.
+- The HTTP endpoint currently has no authentication or rate limiting. Keep it on localhost or use a private tunnel until you add appropriate access controls before public exposure.
 - MCP support belongs to the host application. A model may support tool calling through an API while the associated consumer chat interface does not support custom MCP servers.
 - MCP tool use can increase prompt context because the returned rule and dictionary content is sent to the model.
 
