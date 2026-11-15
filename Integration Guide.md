@@ -99,6 +99,12 @@ ChatGPT connects to remote MCP servers, not directly to a process running on you
 
 DeepSeek API function calling and MCP are separate pieces. To use this server with a DeepSeek model, select DeepSeek in an MCP-capable agent host that supports custom models, or use a host with a DeepSeek MCP client. For example, DeepSeek Harness documents an MCP client that connects to stdio servers and Streamable HTTP servers. The standard DeepSeek chat website should not be assumed to accept arbitrary MCP server URLs unless its current product settings explicitly offer that feature.
 
+## Arabic direction and mixed-script formatting
+
+This MCP server provides guidance; it cannot force the host application's chat UI to render a paragraph RTL. When generating structured HTML or documents, set Arabic paragraph direction explicitly (for HTML, `dir="rtl"`). Keep Latin code, URLs, email addresses, and identifiers LTR and isolate them from Arabic text (for example, `<bdi dir="ltr">...</bdi>`). Use `<bdi dir="auto">` for embedded text with unknown direction. Do not reverse characters manually, and avoid direction override controls such as RLO/LRO unless a specific reviewed requirement calls for them.
+
+References: [W3C RTL authoring guidance](https://www.w3.org/International/docs/bp-html-bidi/), [W3C inline bidirectional markup](https://www.w3.org/International/articles/inline-bidi-markup/), and [Unicode Bidirectional Algorithm (UAX #9)](https://www.unicode.org/reports/tr9/).
+
 ## Security and limits
 
 - The application code has no database or file-writing logic and does not call an external model or language API. It processes the supplied text for the current tool call and returns language guidance; the connected AI client also receives the text under its own data policies.
