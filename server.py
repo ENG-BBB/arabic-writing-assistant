@@ -24,8 +24,10 @@ server = MCPServer(
         "or ask the user. Preserve the author's meaning and voice. Report each "
         "suggestion with the original, suggested edit, a short explanation, and a "
         "confidence label. Distinguish established conventions from style choices; "
-        "do not invent a rule when the reference set is silent. Ask before changing "
-        "dialect, register, or house style."
+        "do not invent a rule when the reference set is silent. For formatted Arabic documents, "
+        "set Arabic HTML blocks to RTL and isolate embedded Latin URLs, email addresses, identifiers, "
+        "and code as LTR; do not reverse their characters or force direction with overrides. "
+        "Ask before changing dialect, register, or house style."
     ),
 )
 
