@@ -38,6 +38,10 @@ The server uses Streamable HTTP at `http://127.0.0.1:8000/mcp`. To expose it to 
 claude mcp add --transport stdio arabic-writing -- uv run --directory "/path/to/Arabic Writing Assistant" mcp run server.py
 ```
 
+## Connect to other AI clients
+
+This is a model-agnostic MCP server. Supported integrations depend on the host application: ChatGPT web (remote MCP or Secure MCP Tunnel), Claude, Qwen Code, Kimi Code, and MCP-capable hosts that use DeepSeek models. See the [Integration Guide](Integration%20Guide.md) for setup commands and client-specific limits. DeepSeek API function calling alone does not make the DeepSeek chat website an MCP client.
+
 ## Rule sources
 
 - [King Salman Global Academy for Arabic Language: *Spelling in the Arabic Writing System*](https://library.ksaa.gov.sa/links/epubs/aliimla_fi_nizam_alkitabat_alearabia.pdf)
