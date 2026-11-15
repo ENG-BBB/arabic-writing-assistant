@@ -1,5 +1,7 @@
 """MCP server for source-aware Arabic writing guidance."""
 
+import os
+
 from mcp.server import MCPServer
 
 from ambiguity import disambiguate_word as find_word_senses
@@ -71,4 +73,5 @@ def review_arabic_text(text: str, style: str = "modern_standard") -> dict:
 
 
 if __name__ == "__main__":
-    server.run(transport="streamable-http", host="0.0.0.0", port=8000)
+    port = int(os.environ.get("PORT", "8000"))
+    server.run(transport="streamable-http", host="0.0.0.0", port=port)
