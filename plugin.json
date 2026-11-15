@@ -1,0 +1,17 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "arabic-writing-assistant",
+  "version": "0.1.0",
+  "description": "Source-aware Arabic proofreading, punctuation, formatting, and selective-diacritic guidance.",
+  "author": {
+    "name": "ENG BBB"
+  },
+  "license": "MIT",
+  "keywords": [
+    "Arabic",
+    "proofreading",
+    "grammar",
+    "punctuation",
+    "MCP"
+  ]
+}
