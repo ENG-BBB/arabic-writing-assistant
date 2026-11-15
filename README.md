@@ -12,6 +12,7 @@
 - فحص آلي محدود للمسافات وعلامات الترقيم والأقواس والتنصيص.
 - عرض معاني بعض الكلمات الملتبسة، مع التشكيل على الحروف التي تميّز المعنى فقط.
 - إعداد قائمة مراجعة تساعد النموذج المضيف على تدقيق النص. الحكم النحوي والدلالي النهائي يعتمد على النموذج والسياق، وليس على فحص آلي كامل.
+- توجيه تنسيق الفقرات العربية RTL، وعزل الروابط والأكواد والمقاطع اللاتينية باتجاه LTR عند إنشاء HTML أو مستند منسق.
 
 بنك القواعد والكلمات الملتبسة **بداية قابلة للتوسعة**، وليس مرجعًا شاملًا لكل مدارس النحو أو أدلة الأسلوب. مدخلات الالتباس الحالية تشمل خمس كلمات غير مضبوطة بالشكل: ملك، علم، فهم، سلم، كتب. نضيف المداخل مع مصادر مباشرة ومراجعة مناسبة.
 
@@ -55,6 +56,7 @@ uv run python server.py
 - Checks mechanical punctuation patterns, spacing, and paired delimiters.
 - Looks up documented meanings for selected ambiguous unvowelled words and marks only letters that distinguish candidate meanings.
 - Prepares a sourced proofreading checklist for the connected host model.
+- Provides guidance for right-to-left Arabic blocks and isolated left-to-right snippets in mixed-script HTML.
 
 This is an actively maintained starting set, not a complete grammar authority. The current ambiguous-word bank covers five spellings: ملك, علم, فهم, سلم, and كتب. The host model makes context-sensitive language judgments; the server does not perform a complete automatic grammar analysis.
 
@@ -91,6 +93,15 @@ Rule entries return source names and URLs. The bank draws on these references:
 - [Saudi Ministry of Health: editorial guide](https://www.moh.gov.sa/Documents/2019-11-24-002.pdf)
 - [Saudi General Authority for Statistics: editorial policy](https://www.stats.gov.sa/documents/20117/2435069/%D8%A7%D9%84%D8%B3%D9%8A%D8%A7%D8%B3%D8%A9%2B%D8%A7%D9%84%D8%AA%D8%AD%D8%B1%D9%8A%D8%B1%D9%8A%D8%A9.pdf/3b2c0301-ffd4-8b1b-1916-c4b335deccf9?download=true&t=1729705430624)
 - [Egyptian Ministry of Awqaf: punctuation overview and examples](https://awkafonline.gov.eg/content-sections/110/3217/%D8%B9%D9%84%D8%A7%D9%85%D8%A7%D8%AA-%D8%A7%D9%84%D8%AA%D8%B1%D9%82%D9%8A%D9%85)
+- [W3C: Authoring HTML for right-to-left scripts](https://www.w3.org/International/docs/bp-html-bidi/)
+- [W3C: Inline markup and bidirectional text in HTML](https://www.w3.org/International/articles/inline-bidi-markup/)
+- [Unicode: Unicode Bidirectional Algorithm, UAX #9](https://www.unicode.org/reports/tr9/)
+
+## Text direction and mixed scripts
+
+For structured HTML documents, set the base direction on Arabic blocks, for example `<p lang="ar" dir="rtl">…</p>`. Direction is separate from right alignment. Keep code, URLs, email addresses, and Latin identifiers left-to-right and isolate them from surrounding Arabic, for example `<bdi dir="ltr">https://example.com</bdi>`; use `<bdi dir="auto">` for unknown-direction inline content. Do not reverse characters manually. Avoid directional override controls such as RLO/LRO unless a specific, reviewed use requires them.
+
+This MCP server returns text and formatting guidance; the host application controls how plain-text results are displayed. The punctuation audit does not verify visual RTL layout.
 
 ## Data handling and security
 
