@@ -1,0 +1,20 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "arabic-writing": {
+      "type": "stdio",
+      "command": "uv",
+      "args": [
+        "run",
+        "mcp",
+        "run",
+        "server.py"
+      ],
+      "cwd": "${PLUGIN_ROOT}",
+      "env_vars": [
+        "PATH",
+        "HOME"
+      ]
+    }
+  }
+}
