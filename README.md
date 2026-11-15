@@ -1,69 +1,111 @@
 # Arabic Writing Assistant
 
-An open MCP server for Arabic grammar guidance, punctuation, quotation marks, spelling, and editorial formatting. It is designed for AI hosts such as ChatGPT and Claude.
+**مساعد للكتابة العربية يعمل عبر MCP**، يقدّم إرشادًا لغويًا موثقًا ويفحص الترقيم، والتنصيص، والتنسيق. يستطيع المستخدم ربطه بعميل ذكاء اصطناعي يدعم MCP.
 
-## What it does
+**A source-aware Arabic writing assistant over MCP.** It provides language guidance, punctuation checks, quotation and formatting help, and selective diacritics for a small curated set of ambiguous words.
 
-- `search_arabic_rules`: find concise, sourced guidance by topic or question.
-- `audit_arabic_punctuation`: flag mechanical punctuation and spacing issues.
-- `disambiguate_arabic_word`: use context to distinguish documented meanings and show only the vowel marks on letters that change the meaning.
-- `review_arabic_text`: provide a structured proofreading brief for a host model, including syntax, agreement, spelling, punctuation, quotation, and formatting checks.
+## بالعربية
 
-The rule bank covers core syntax and inflection, spelling, punctuation, quotation, and editorial formatting. Each entry includes an original short summary, example, confidence label, source URL, and source name in search results. The bank is a curated starting point, not a claim that every Arabic grammar tradition or house style has one universal answer. The server distinguishes widely used conventions from style-dependent choices.
+### ماذا يقدم؟
 
-## Selective diacritics for ambiguous words
+- البحث عن قواعد عربية مع أمثلة وروابط للمصادر.
+- فحص آلي محدود للمسافات وعلامات الترقيم والأقواس والتنصيص.
+- عرض معاني بعض الكلمات الملتبسة، مع التشكيل على الحروف التي تميّز المعنى فقط.
+- إعداد قائمة مراجعة تساعد النموذج المضيف على تدقيق النص. الحكم النحوي والدلالي النهائي يعتمد على النموذج والسياق، وليس على فحص آلي كامل.
 
-The disambiguation tool takes a word and its sentence context. It returns documented candidate meanings and marks only the letters whose vowels or shadda distinguish those meanings. Seed entries cover five unvowelled spellings: ملك (angel/ruler/sovereignty), علم (knowledge/flag; knew/taught), فهم (understood/explained), سلم (was safe/handed or greeted), and كتب (wrote/was written/books). Since ملك has three candidates, the marks on both م and ل distinguish all three; for only the angel/ruler pair, the distinction is on ل. The host model selects a candidate from context; if context is insufficient, it should show alternatives or ask rather than guess. This is selective disambiguation, not full tashkeel. The lexicon remains a seed set and each new entry needs a dictionary or reviewed grammatical source.
+بنك القواعد والكلمات الملتبسة **بداية قابلة للتوسعة**، وليس مرجعًا شاملًا لكل مدارس النحو أو أدلة الأسلوب. مدخلات الالتباس الحالية تشمل خمس صور كتابية غير مشكولة: ملك، علم، فهم، سلم، كتب. نضيف المداخل مع مصادر مباشرة ومراجعة مناسبة.
 
-## Run locally
+### تشغيل سريع
 
-Requires Python 3.11+ and `uv`.
+يتطلب Python 3.11 أو أحدث و[uv](https://docs.astral.sh/uv/).
 
 ```sh
+git clone https://github.com/ENG-BBB/arabic-writing-assistant.git
+cd arabic-writing-assistant
 uv sync
 uv run mcp dev server.py
 ```
 
-For a deployed HTTP endpoint:
+للتشغيل مع عميل محلي يستخدم stdio:
+
+```sh
+uv run mcp run server.py
+```
+
+ولتشغيل واجهة HTTP محليًا:
 
 ```sh
 uv run python server.py
 ```
 
-The server uses Streamable HTTP at `http://127.0.0.1:8000/mcp`. To expose it to a hosted assistant, deploy it behind HTTPS and follow that host's custom MCP setup. Claude Code can also run it locally over stdio with `uv run mcp run server.py`.
+يوجد شرح ربط Claude وChatGPT والعملاء الأخرى في [Integration Guide](Integration%20Guide.md).
 
-## Add it to Claude Code
+### أمثلة لطلبات
+
+- «ابحث عن قاعدة كتابة الهمزة المتوسطة مع مثال.»
+- «افحص علامات الترقيم والمسافات في هذا النص.»
+- «ما المعاني المحتملة لكلمة ملك في هذه الجملة؟»
+- «راجع النص، وميّز التصحيح اللغوي المؤكد من الاقتراح الأسلوبي.»
+
+## English
+
+### What it does
+
+- Searches a curated bank of Arabic grammar, spelling, punctuation, quotation, and formatting guidance.
+- Checks mechanical punctuation patterns, spacing, and paired delimiters.
+- Looks up documented meanings for selected ambiguous unvowelled words and marks only letters that distinguish candidate meanings.
+- Prepares a sourced proofreading checklist for the connected host model.
+
+This is an actively maintained starting set, not a complete grammar authority. The current ambiguous-word bank covers five spellings: ملك, علم, فهم, سلم, and كتب. The host model makes context-sensitive language judgments; the server does not perform a complete automatic grammar analysis.
+
+### Quick start
+
+Requires Python 3.11+ and [uv](https://docs.astral.sh/uv/).
 
 ```sh
-claude mcp add --transport stdio arabic-writing -- uv run --directory "/path/to/Arabic Writing Assistant" mcp run server.py
+git clone https://github.com/ENG-BBB/arabic-writing-assistant.git
+cd arabic-writing-assistant
+uv sync
+uv run mcp dev server.py
 ```
 
-## Connect to other AI clients
+See the [Integration Guide](Integration%20Guide.md) for client-specific setup instructions.
 
-This is a model-agnostic MCP server. Supported integrations depend on the host application: ChatGPT web (remote MCP or Secure MCP Tunnel), Claude, Qwen Code, Kimi Code, and MCP-capable hosts that use DeepSeek models. See the [Integration Guide](Integration%20Guide.md) for setup commands and client-specific limits. DeepSeek API function calling alone does not make the DeepSeek chat website an MCP client.
+## Available tools
 
-## Rule sources
+- `search_arabic_rules`: search sourced guidance by topic or category.
+- `audit_arabic_punctuation`: flag mechanical punctuation, spacing, repeated marks, and unmatched delimiters.
+- `disambiguate_arabic_word`: return documented candidate meanings and selective diacritics.
+- `review_arabic_text`: prepare a review checklist and relevant source rules for the host model.
 
-- [King Salman Global Academy for Arabic Language: *Spelling in the Arabic Writing System*](https://library.ksaa.gov.sa/links/epubs/aliimla_fi_nizam_alkitabat_alearabia.pdf)
+The punctuation audit does not determine whether punctuation matches the intended meaning. The review tool returns guidance for the host model; it does not independently guarantee a correct proofread.
+
+## Sources
+
+Rule entries return source names and URLs. The bank draws on these references:
+
+- [King Salman Global Academy for Arabic Language: spelling in the Arabic writing system](https://library.ksaa.gov.sa/links/epubs/aliimla_fi_nizam_alkitabat_alearabia.pdf)
 - [King Salman Global Academy for Arabic Language: Arabic grammar curricula](https://library.ksaa.gov.sa/links/epubs/manahij_taelim_allughat_alearabiat_fi_aljamieat_alearabia.pdf)
-- [Cairo Arabic Language Academy: definition of punctuation](https://www.arabicacademy.gov.eg/ar/%D9%85%D8%AD%D8%B1%D9%83-%D8%A7%D9%84%D8%A8%D8%AD%D8%AB/%D9%85%D8%B9%D8%AC%D9%85/dic-349/%D8%A7%D9%84%D8%AA%D8%B1%D9%82%D9%8A%D9%85)
-- [Cairo Arabic Language Academy: roots علم، فهم، سلم، كتب، ملك](https://www.arabicacademy.gov.eg/ar/search_engine/roots)
+- [Cairo Arabic Language Academy: punctuation definition](https://www.arabicacademy.gov.eg/ar/%D9%85%D8%AD%D8%B1%D9%83-%D8%A7%D9%84%D8%A8%D8%AD%D8%AB/%D9%85%D8%B9%D8%AC%D9%85/dic-349/%D8%A7%D9%84%D8%AA%D8%B1%D9%82%D9%8A%D9%85)
+- [Cairo Arabic Language Academy: root search](https://www.arabicacademy.gov.eg/ar/search_engine/roots)
 - [Saudi Ministry of Health: editorial guide](https://www.moh.gov.sa/Documents/2019-11-24-002.pdf)
 - [Saudi General Authority for Statistics: editorial policy](https://www.stats.gov.sa/documents/20117/2435069/%D8%A7%D9%84%D8%B3%D9%8A%D8%A7%D8%B3%D8%A9%2B%D8%A7%D9%84%D8%AA%D8%AD%D8%B1%D9%8A%D8%B1%D9%8A%D8%A9.pdf/3b2c0301-ffd4-8b1b-1916-c4b335deccf9?download=true&t=1729705430624)
-- [Cairo Arabic Language Academy: root علم](https://www.arabicacademy.gov.eg/ar/search_engine/roots/%D8%B9%D9%84%D9%85)
-- [Cairo Arabic Language Academy: الملك and الملك](https://www.arabicacademy.gov.eg/ar/%D9%85%D8%AD%D8%B1%D9%83-%D8%A7%D9%84%D8%A8%D8%AD%D8%AB/%D9%85%D8%B9%D8%AC%D9%85/%D8%A7%D9%84%D9%85%D9%8E%D9%84%D9%92%D9%83%D9%8F?exact_search=true)
 - [Egyptian Ministry of Awqaf: punctuation overview and examples](https://awkafonline.gov.eg/content-sections/110/3217/%D8%B9%D9%84%D8%A7%D9%85%D8%A7%D8%AA-%D8%A7%D9%84%D8%AA%D8%B1%D9%82%D9%8A%D9%85)
-- [Saudi General Authority for Statistics: editorial policy](https://www.stats.gov.sa/documents/20117/2435069/%D8%A7%D9%84%D8%B3%D9%8A%D8%A7%D8%B3%D8%A9%2B%D8%A7%D9%84%D8%AA%D8%AD%D8%B1%D9%8A%D8%B1%D9%8A%D8%A9.pdf/3b2c0301-ffd4-8b1b-1916-c4b335deccf9?download=true&t=1729705430624)
 
-## Scope and style
+## Data handling and security
 
-The initial profile is Modern Standard Arabic. Regional dialects, academic citation formats, publishing house styles, and Qur'anic orthography need separate profiles. A host model should explain uncertain or style-dependent suggestions instead of silently rewriting them.
+The application code has no database or file-writing logic and does not call an external model or language API. It processes text supplied for a tool call and returns language guidance. The connected AI client also receives the text under that service's own data policies.
 
-## Development
+The HTTP server currently has no authentication or rate limiting. Keep it on localhost or use a private tunnel unless you add appropriate access controls before exposing a hosted endpoint. Hosting providers may keep operational logs according to their own settings and policies; review those settings before deployment. Do not send confidential text to a hosted instance until you have reviewed its data handling.
 
-```sh
-uv sync --extra dev
-uv run python -m pytest
-```
+## Scope
 
-Rule contributions should include a short statement, at least one example, a directly relevant source, and a confidence label (`standard`, `common`, or `style-dependent`). Do not phrase a source-specific style choice as a universal grammar rule. For ambiguous-word entries, cite a dictionary or grammar source for every candidate meaning, include contextual examples, and verify that selective rendering adds marks only at positions where the candidate forms differ.
+The initial profile is Modern Standard Arabic. Dialects, academic citation systems, publisher-specific styles, and Qur'anic orthography need separate profiles. When a source is silent or a choice depends on house style, the tool should say so rather than present one preference as a universal rule.
+
+## Contributing
+
+Rule contributions should include a short statement, at least one example, a directly relevant source, and a confidence label (`standard`, `common`, or `style-dependent`). For ambiguous-word entries, cite a dictionary or grammar source for every candidate meaning and verify that selective rendering marks only the letters that distinguish the candidate forms.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
